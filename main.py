@@ -5,7 +5,7 @@ from datetime import datetime
 from frame_processing import background_substraction, draw_box_contours, adaptive_threshold
 
 PATH = "C:/Users/zocha/OneDrive - Politechnika Warszawska/6sem/wma/projekt/dane_filmy/mp4/17_08_00.mp4"
-METHOD_NAME = "adaptive_threshold"
+METHOD_NAME = "background_substraction"
 
 # file export utils
 now = datetime.now()
@@ -37,12 +37,13 @@ while cap.isOpened():
         processed = background_substraction(frame)
     elif METHOD_NAME == "adaptive_threshold":
         processed = adaptive_threshold(frame, background)
+
     elif METHOD_NAME == "dnn_yolo":
         processed = frame  # TODO
     else:
         processed = frame
 
-    frame_with_detection = draw_box_contours(processed)
+    frame_with_detection = draw_box_contours(processed, frame)
     cv2.imshow("frame", frame_with_detection)
     cv2.imshow("processed", processed)
     frames.append(frame_with_detection)

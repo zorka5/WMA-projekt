@@ -35,15 +35,17 @@ def adaptive_threshold(frame: np.ndarray, background: np.ndarray) -> np.ndarray:
     return th2
 
 
-def draw_box_contours(input_frame: np.ndarray) -> np.ndarray:
-    contours, hierarchy = cv2.findContours(input_frame, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
-    blank = np.zeros(input_frame.shape[:3])
-    output_frame = cv2.drawContours(blank, contours, -1, (0, 0, 255), 1)
+def draw_box_contours(input_frame: np.ndarray, output_frame: np.ndarray) -> np.ndarray:
+    contours, hierarchy = cv2.findContours(input_frame, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    print(len(contours))
+    blank = np.zeros(output_frame.shape[:3])
+
+    output = cv2.drawContours(output_frame, contours, -1, (0, 0, 255), 1)
 
     for contour in contours:
-        if cv2.contourArea(contour) < 1000:
+        if cv2.contourArea(contour) < 100:
             continue
         (x, y, w, h) = cv2.boundingRect(contour)
-        cv2.rectangle(output_frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
+        cv2.rectangle(output, (x, y), (x + w, y + h), (0, 255, 0), 3)
 
-    return output_frame
+    return output
