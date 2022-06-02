@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from utils import frames_to_video
+from utils import create_dnn_model, frames_to_video
 
 # pobranie video z pliku
 # cap = cv2.VideoCapture("./data/17_08_00.mp4")
@@ -22,11 +22,12 @@ with open(classesFile, "rt") as f:
     classNames = f.read().rstrip("\n").split("\n")
 
 
-modelConfiguration = "./dnn_files/yolov3.cfg"
-modelWeights = "./dnn_files/yolov3.weights"
-model = cv2.dnn.readNetFromDarknet(modelConfiguration, modelWeights)
-model.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
-model.setPreferableTarget(cv2.dnn.DNN_TARGET_OPENCL)
+# modelConfiguration = "./dnn_files/yolov3.cfg"
+# modelWeights = "./dnn_files/yolov3.weights"
+# model = cv2.dnn.readNetFromDarknet(modelConfiguration, modelWeights)
+# model.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
+# model.setPreferableTarget(cv2.dnn.DNN_TARGET_OPENCL)
+model = create_dnn_model()
 
 
 def findObjects(outputs, img):
@@ -64,10 +65,9 @@ def findObjects(outputs, img):
 
 
 # sprawdzenie czy video zostało poprawnie wczytane
-if cap.isOpened() == False:
+if cap.isOpened() is False:
     print("Error opening video stream or file")
 
-# backSub = cv2.createBackgroundSubtractorMOG2()
 
 size = (0, 0)
 
