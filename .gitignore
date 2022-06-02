@@ -3,3 +3,4 @@ venv/
 output/
 dnn_files/
 data/
+.vscode/
