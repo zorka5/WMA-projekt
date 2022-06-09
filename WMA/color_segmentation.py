@@ -9,7 +9,7 @@ importlib.import_module("mpl_toolkits.mplot3d").Axes3D
 
 # plik z obiektem do wymaskowania
 background_mask = cv2.imread("./data/bg_mask.png")
-object = cv2.imread("./data/bg_mask.png")
+object = cv2.imread("./data/dach.png")
 
 # plik z obrazem z którego usuwam elementy
 background = cv2.imread("./data/background.png")
@@ -36,8 +36,8 @@ axis.set_zlabel("Value")
 plt.show()
 
 # zakresy hsv
-lower_color = (40, 25, 10)
-upper_color = (80, 245, 150)
+lower_color = (110, 50, 75)
+upper_color = (145, 150, 175)
 
 # wyswieltenie wybranych kolorów
 lo_square = np.full((10, 10, 3), lower_color, dtype=np.uint8) / 255.0
@@ -53,6 +53,7 @@ plt.show()
 mask = cv2.inRange(hsv_background, lower_color, upper_color)
 result = cv2.bitwise_and(hsv_background, background, mask=mask)
 cv2.imshow("original", hsv_background)
+cv2.imshow("original", background)
 cv2.imshow("mask green color", mask)
 
 cv2.waitKey(0)

@@ -7,22 +7,20 @@ from datetime import datetime
 from frame_processing import (
     background_substraction,
     draw_box_contours,
-    adaptive_threshold,
-    mask_color,
-    color_segmentation,
 )
 
-# PATH = "C:/Users/zocha/OneDrive - Politechnika Warszawska/6sem/wma/projekt/dane_filmy/mp4/renault_wjazd_dzien_dach.mp4"
-PATH = "C:/Users/zocha/OneDrive - Politechnika Warszawska/6sem/wma/projekt/dane_filmy/mp4/17_08_00.mp4"
-METHOD_NAME = "color_segmentation"
+filename = "toyota_dzien_wjazd"
+PATH = f"C:/Users/zocha/OneDrive - Politechnika Warszawska/6sem/wma/projekt/dane_filmy/mp4/{filename}.mp4"
+method = "all"
 
 # file export utils
 now = datetime.now()
 date_time = now.strftime("%m_%d_%Y_%H_%M_%S")
-fname_processed = f"./output/{METHOD_NAME}_{date_time}_detection.avi"
-fname_detection = f"./output/{METHOD_NAME}_{date_time}_processed.avi"
+fname_processed = f"./output/{method}_{filename}_{date_time}_detection.avi"
+fname_detection = f"./output/{method}_{filename}_{date_time}_processed.avi"
 processed_frames = []
 frames_with_detection = []
+test = []
 
 
 try:
@@ -50,8 +48,6 @@ while cap.isOpened():
     mask = create_mask("./data/background_mask.jpg")
     processed = cv2.bitwise_and(frame, frame, mask=mask)
 
-    # stworzenie maski bramy
-
     # odejmowanie tła
     processed = background_substraction(processed)
 
@@ -71,7 +67,8 @@ while cap.isOpened():
         break
 
 
-# frames_to_video(frames_with_detection, fname_detection)
-# frames_to_video(processed_frames, fname_processed)
+frames_to_video(frames_with_detection, fname_detection, 3)
+frames_to_video(processed_frames, fname_processed, 0)
+
 cap.release()
 cv2.destroyAllWindows()

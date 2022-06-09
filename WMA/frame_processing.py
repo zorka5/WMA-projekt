@@ -37,7 +37,6 @@ def adaptive_threshold(frame: np.ndarray, background: np.ndarray) -> np.ndarray:
 def mask_color(
     frame: np.ndarray, lower_color_hsv: tuple[int, int, int], upper_color_hsv: tuple[int, int, int]
 ) -> np.ndarray:
-    processed = frame
     hsv_frame = cv2.cvtColor(frame, cv2.COLOR_RGB2HSV)
     mask = cv2.inRange(hsv_frame, lower_color_hsv, upper_color_hsv)
     return mask
@@ -77,6 +76,21 @@ def draw_box_contours(input_frame: np.ndarray, output_frame: np.ndarray) -> np.n
         if cv2.contourArea(contour) < 1000:
             continue
         (x, y, w, h) = cv2.boundingRect(contour)
+        class_name = "aa"
+        if h > w:
+            class_name = "person"
+        else:
+            class_name = "car"
         cv2.rectangle(output, (x, y), (x + w, y + h), (0, 255, 0), 3)
+
+        cv2.putText(
+            output_frame,
+            class_name,
+            (x, y - 10),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.6,
+            (0, 0, 255),
+            2,
+        )
 
     return output
